@@ -1,77 +1,59 @@
 import { createWebHistory, createRouter } from "vue-router";
-import Events from "../views/Events.vue";
-import Accordion from "../views/Accordion.vue";
-import Carousel from "../views/Carousel.vue";
-import Collapse from "../views/Collapse.vue";
-import Dial from "../views/Dial.vue";
-import Dismiss from "../views/Dismiss.vue";
-import Drawer from "../views/Drawer.vue";
-import Dropdown from "../views/Dropdown.vue";
-import Popover from "../views/Popover.vue";
-import Tabs from "../views/Tabs.vue";
-import Tooltip from "../views/Tooltip.vue";
-import Modal from "../views/Modal.vue";
+import Course from "../views/Course/Course.vue";
+import CourseDetails from "../views/Course/CourseDetails.vue";
+import Subject from "../views/Subject/Subject.vue";
+import SubjectDetails from "../views/Subject/SubjectDetails.vue";
+import Student from "../views/Student/Student.vue";
+import StudentDetails from "../views/Student/StudentDetails.vue";
 
 const routes = [
   {
-    path: "/events",
-    name: "Events",
-    component: Events,
+    path: "/course",
+    name: "Cursos",
+    component: Course,
   },
   {
-    path: "/accordion",
-    name: "Accordion",
-    component: Accordion,
+    path: "/course/:id",
+    name: "DetalhesCurso",
+    component: CourseDetails,
   },
   {
-    path: "/carousel",
-    name: "Carousel",
-    component: Carousel,
+    path: "/course/new",
+    name: "NovoCurso",
+    component: CourseDetails,
+  },
+
+
+  {
+    path: "/subject",
+    name: "Disciplinas",
+    component: Subject,
   },
   {
-    path: "/collapse",
-    name: "Collapse",
-    component: Collapse,
+    path: "/subject/:id",
+    name: "DetalhesDisciplina",
+    component: SubjectDetails,
   },
   {
-    path: "/dial",
-    name: "Dial",
-    component: Dial,
+    path: "/subject/new",
+    name: "NovaDisciplina",
+    component: SubjectDetails,
+  },
+
+  {
+    path: "/student",
+    name: "Estudante",
+    component: Student,
   },
   {
-    path: "/dismiss",
-    name: "Dismiss",
-    component: Dismiss,
+    path: "/student/:id",
+    name: "DetalhesEstudante",
+    component: StudentDetails,
   },
   {
-    path: "/drawer",
-    name: "Drawer",
-    component: Drawer,
-  },
-  {
-    path: "/dropdown",
-    name: "Dropdown",
-    component: Dropdown,
-  },
-  {
-    path: "/popover",
-    name: "Popover",
-    component: Popover,
-  },
-  {
-    path: "/tabs",
-    name: "Tabs",
-    component: Tabs,
-  },
-  {
-    path: "/tooltip",
-    name: "Tooltip",
-    component: Tooltip,
-  },
-  {
-    path: "/modal",
-    name: "Modal",
-    component: Modal,
+    path: "/student/new",
+    name: "NovoEstudante",
+    component: StudentDetails,
   },
 ];
 

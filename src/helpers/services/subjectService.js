@@ -8,4 +8,10 @@ export default {
     getSubject: async (id) => {
         return await axios.get(`${Constants.URL_ADRESS}/subject/${id}`);
     },
+    mapSubjectsSelect: (subjectsAvailable) => {
+        return subjectsAvailable.map((x) => ({
+                value: x.id,
+                name: x.name,
+            }));
+    }
 }

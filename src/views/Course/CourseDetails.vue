@@ -48,6 +48,9 @@
             <Button v-on:click="submitForm()">Salvar</Button>
         </div>
     </DetailsEntity>
+
+
+    <DisplayError :errorMessage="errorMessage"></DisplayError>
 </template>
 
 <script setup>
@@ -60,7 +63,8 @@ import { useRoute } from 'vue-router';
 import router from '../../router';
 import DetailsEntity from '../../helpers/components/DetailsEntity.vue';
 import subjectService from '../../helpers/services/subjectService';
-
+import DisplayError from '../../helpers/components/DisplayError.vue';
+import { Toast } from 'flowbite-vue';
 const routeCurrent = useRoute();
 let entity = ref({});
 let subjects = ref([]);
@@ -87,7 +91,7 @@ function setErrorMessage(message) {
 }
 
 async function removeSubject(id) {
-    const { data } = await axios.delete(`${Constants.URL_ADRESS}/courseSubject/${id}`,);
+    const { data } = await axios.delete(`${Constants.URL_ADRESS}/courseSubject/${id}`);
     if (data.success) {
         await getSubjectsCourse();
     }
@@ -138,11 +142,7 @@ async function setSubjectsSelect() {
                 y.subject.id == x.id
             ));
 
-        subjectsSelectOptions.value =
-            subjectsAvailable.map((x) => ({
-                value: x.id,
-                name: x.name,
-            }));
+        subjectsSelectOptions.value = subjectService.mapSubjectsSelect(subjectsAvailable);
     }
     else {
         setErrorMessage(subjectsList.data.message);
