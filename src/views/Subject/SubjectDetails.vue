@@ -4,6 +4,8 @@
             <Input size="md" placeholder="Nome" v-model="entity.name" />
         </div>
 
+        <DisplayError :errorMessage="errorMessage"></DisplayError>
+
         <div class="pt-3">
             <Button v-on:click="submitForm()">Salvar</Button>
         </div>
@@ -16,13 +18,14 @@ import { Input, Button } from 'flowbite-vue'
 import axios from 'axios';
 import Constants from '../../../constants';
 import { useRoute } from 'vue-router';
-const routeCurrent = useRoute();
 import router from '../../router';
 import DetailsEntity from '../../helpers/components/DetailsEntity.vue';
+import subjectService from '../../helpers/services/subjectService';
+import DisplayError from '../../helpers/components/DisplayError.vue';
+const routeCurrent = useRoute();
 let entity = ref({});
 let errorMessage = ref("");
 const entityType = "subject";
-import subjectService from '../../helpers/services/subjectService';
 async function submitForm() {
     const { data } = await axios.post(`${Constants.URL_ADRESS}/${entityType}`, entity.value);
     if (data.success) {

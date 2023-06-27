@@ -5,7 +5,8 @@
         </div>
 
         <div class="pt-10">
-            <Select v-model="entity.courseId" :options="courseSelectOptions" :placeholder="'Curso'" />
+            <Select v-model="entity.courseId" :options="courseSelectOptions" :placeholder="'Curso'"
+                v-on:change="onUpdateCourse" />
         </div>
 
         <div class="pt-10">
@@ -44,6 +45,8 @@
             </div>
         </div>
 
+        <DisplayError :errorMessage="errorMessage"></DisplayError>
+
         <div class="pt-10">
             <Button v-on:click="submitForm()">Salvar</Button>
         </div>
@@ -54,6 +57,7 @@
 import { ref, onMounted } from 'vue';
 import { Input, Button, Select, Table, TableHead, TableHeadCell, TableBody, TableRow, TableCell } from 'flowbite-vue'
 import { TrashIcon, CheckIcon } from '@heroicons/vue/24/solid'
+import DisplayError from '../../helpers/components/DisplayError.vue';
 import axios from 'axios';
 import Constants from '../../../constants';
 import { useRoute } from 'vue-router';
@@ -129,21 +133,32 @@ async function getSubjectsStudent() {
             `${Constants.URL_ADRESS}/GetSubjectsStudent/${routeCurrent.params.id}`
         );
         subjects.value = response.data.result.subjects;
-        await setSubjectsSelect();
+        await onUpdateCourse();
     }
 }
 
 async function setSubjectsSelect() {
-    const subjectsList = await subjectService.getSubjects();
+    const subjectsList = await subjectService.getCourseSubjects(entity._value.courseId);
     if (subjectsList.data.result) {
-        const subjectsAvailable = subjectsList.data.result
+        console.log(subjects.value)
+        const subjectsAvailable = subjectsList.data.result.subjects
             .filter((x) => !subjects.value.some((y) =>
-                y.subject.id == x.id
+                y.subject.id == x.subject.id
             ));
-            subjectsSelectOptions.value = subjectService.mapSubjectsSelect(subjectsAvailable);
+
+        subjectsSelectOptions.value = subjectsAvailable.map((x) => ({
+            value: x.subject.id,
+            name: x.subject.name,
+        }));
     }
     else {
         setErrorMessage(subjectsList.data.message);
+    }
+}
+
+async function onUpdateCourse() {
+    if (entity._value.courseId) {
+        await setSubjectsSelect();
     }
 }
 
